@@ -48,6 +48,7 @@ pr-main: setup-upstream
 		echo "Error: PR_ID is not set. Usage: make pr PR_ID=<PR_ID>"; \
 		exit 1; \
 	fi
+	git pull
 	git checkout $(DEFAULT_BRANCH)
 	git fetch $(UPSTREAM_REPO) pull/$(PR_ID)/head:pr-$(PR_ID)
 	git checkout $(DEFAULT_BRANCH)
