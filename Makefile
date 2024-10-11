@@ -41,3 +41,15 @@ clean:
 		exit 1; \
 	fi
 	git branch -d pr-$(PR_ID)
+
+# Fetch the PR from upstream, directly apply to main branch, and push it to your fork
+pr-main: setup-upstream
+	@if [ -z "$(PR_ID)" ]; then \
+		echo "Error: PR_ID is not set. Usage: make pr PR_ID=<PR_ID>"; \
+		exit 1; \
+	fi
+	git checkout $(DEFAULT_BRANCH)
+	git fetch $(UPSTREAM_REPO) pull/$(PR_ID)/head:pr-$(PR_ID)
+	git checkout $(DEFAULT_BRANCH)
+	git merge pr-$(PR_ID)
+	git push $(FORK_REPO) $(DEFAULT_BRANCH)
